@@ -8,7 +8,10 @@ package maxSumSubMatrix;
  *
  */
 public class MaxSumSubMatFullSearch {
-
+	/**
+	 * Full search. Complexity O(n^3*m^3)
+	 * @param mat- integer matrix.
+	 */
 	public static void maxSumSubMatFullSearch(int mat[][]) {
 		int m = mat.length;
 		int n = mat[0].length;
