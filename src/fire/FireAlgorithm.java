@@ -47,11 +47,25 @@ public class FireAlgorithm {
 	}
 	
 	public static void main(String[] args) {
-		fire(InitTrees.initTree1());
-		fire(InitTrees.initTree2());
-		fire(InitTrees.initTree3());
-		fire(InitTrees.initTree4());
-		fire(InitTrees.initTree5());
+		int n = 7;
+		MyVector[] tree = new MyVector[n];
+		for (int i=0; i<n; i++){
+			tree[i] = new MyVector(n);
+		}
+		tree[0].add(1);
+		////////////
+		tree[1].add(0); tree[1].add(2); tree[1].add(4);
+		///////////
+		tree[2].add(1); tree[2].add(3);
+		/////////////
+		tree[3].add(2);
+		////////////
+		tree[4].add(1); tree[4].add(5);
+		////////////
+		tree[5].add(4); tree[5].add(6);
+		////////////
+		tree[6].add(5);
+		fire(tree);
 	}
 
 }

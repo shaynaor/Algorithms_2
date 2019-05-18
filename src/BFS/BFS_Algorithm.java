@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
+
 /**
  * BFS (Breadth First Search) algorithm. Complexity: O(|V|+|E|)
  * 
@@ -45,11 +46,12 @@ public class BFS_Algorithm {
 		queue = new ArrayBlockingQueue<Integer>(size);
 		color = new int[size];
 		parent = new int[size];
+		dist = new int[size];
 		partition = new int[size];
 		components = new int[size];
 		source = 0;
 		numComps = 0;
-		BFS(g[0].get(0)); // starts BFS algorithm with the first item(could be any other item).
+		BFS(0); // starts BFS algorithm with the first item(could be any other item).
 	}
 
 	/**
@@ -59,6 +61,7 @@ public class BFS_Algorithm {
 	 */
 	public void BFS(int s) {
 		source = s;
+		int u = 0;
 		/* INIT arrays */
 		for (int i = 0; i < size; i++) {
 			color[i] = WHITE; // colored all vertices in white.
@@ -70,8 +73,7 @@ public class BFS_Algorithm {
 		parent[source] = NIL; // source has no parent (root).
 		queue.add(source); // add source vertex to the queue.
 		while (!queue.isEmpty()) {
-			int u = queue.peek(); // retrieves and removes the head of this queue.
-			queue.poll();
+			u = queue.poll(); // retrieves and removes the head of this queue.
 			/* goes over all adj[u]. */
 			for (int v : graph[u]) {
 				/* if v is not visited yet. */
@@ -93,6 +95,7 @@ public class BFS_Algorithm {
 	 * @return - true iff graph is connected.
 	 */
 	public boolean isConnected() {
+		BFS(0);
 		for (int i = 0; i < dist.length; i++) {
 			if (dist[i] == NIL) {
 				return false;
@@ -124,5 +127,55 @@ public class BFS_Algorithm {
 		}
 		return "";
 	}
-
+	/**
+	 * 
+	 * @return - the diameter of the graph.
+	 */
+	public int findDiameter() {
+		BFS(0);//BFS with the first element.
+		int ind = findMax(); // find the maximum distance.
+		BFS(ind);// run BFS again with the max distance.
+		ind = findMax();//find max again - the diameter.
+		return ind;
+	}
+	
+	/**
+	 * This function represent naive solution to find index of max in array. number
+	 * of comparisons: n-1. complexity: O(n).
+	 * 
+	 * @param a array.
+	 * @return the maximum value in the array
+	 */
+	private int findMax() {
+		int max = dist[0];
+		int index = 0;
+		for (int i = 1; i < dist.length; i++) {
+			if (dist[i] > max) {
+				max = dist[i];
+				index = i;
+			}
+		}
+		return index;
+	}
+	
+	public static void main(String[] args) {
+		int size = 7;
+		ArrayList<Integer>[] graph = new ArrayList[size];
+		for (int i = 0; i < size; i++) {
+			graph[i] = new ArrayList<Integer>();
+		}
+		graph[0].add(1); graph[0].add(2);  
+		graph[1].add(0); graph[1].add(2);  
+		graph[2].add(1); graph[2].add(0);  
+		graph[3].add(4); graph[3].add(5);  
+		graph[4].add(3); graph[4].add(6);  
+		graph[5].add(3); graph[5].add(6);  
+		graph[6].add(4); graph[6].add(5); 
+		
+		BFS_Algorithm bfs = new BFS_Algorithm(graph);
+		bfs.BFS(0);
+		
+		
+	}
+	
 }
