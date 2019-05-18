@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import fire.MyVector;
 
 /**
  * BFS (Breadth First Search) algorithm. Complexity: O(|V|+|E|)
@@ -51,7 +52,7 @@ public class BFS_Algorithm {
 		components = new int[size];
 		source = 0;
 		numComps = 0;
-		BFS(0); // starts BFS algorithm with the first item(could be any other item).
+		// BFS(0); // starts BFS algorithm with the first item(could be any other item).
 	}
 
 	/**
@@ -62,7 +63,7 @@ public class BFS_Algorithm {
 	public void BFS(int s) {
 		source = s;
 		int u = 0;
-		/* INIT arrays */
+		/* INIT arrays - color, distance, and parent. */
 		for (int i = 0; i < size; i++) {
 			color[i] = WHITE; // colored all vertices in white.
 			dist[i] = NIL; // all distances = -1.
@@ -90,7 +91,8 @@ public class BFS_Algorithm {
 
 	/**
 	 * This method goes over dist[] and check if one of the cells has NIL value, if
-	 * has the graph is not connected else the graph is connected.
+	 * has the graph is not connected else the graph is connected. Complexity:
+	 * O(|V|+|E|).
 	 * 
 	 * @return - true iff graph is connected.
 	 */
@@ -103,42 +105,47 @@ public class BFS_Algorithm {
 		}
 		return true;
 	}
+
 	/**
 	 * 
 	 * @param s -source vertex.
 	 * @param v - destination vertex.
-	 * @return - string the represent the path in BFS from s to v.
+	 * @return - string the represent the path in BFS from s to v. Complexity:
+	 *         O(|V|+|E|).
 	 */
 	public String printPath(int s, int v) {
 		BFS(s); // run BFS with s- source vertex.
 		String path = "";
 		if (dist[v] == NIL) {
 			return "There is no path exist between s to v!!";
-		} else if (s == v) {
+		}
+		if (s == v) {
 			return "" + s;
 		} else {
 			path += v;
 			int parent = this.parent[v];
-			while(parent !=NIL) {
+			while (parent != NIL) {
 				path = parent + "->" + path;
 				parent = this.parent[parent];
 			}
-			
+
 		}
-		return "";
+		return path;
 	}
+
 	/**
+	 * Complexity: O( 2(|V|+|E|) ).
 	 * 
 	 * @return - the diameter of the graph.
 	 */
 	public int findDiameter() {
-		BFS(0);//BFS with the first element.
+		BFS(0);// BFS with the first element.
 		int ind = findMax(); // find the maximum distance.
 		BFS(ind);// run BFS again with the max distance.
-		ind = findMax();//find max again - the diameter.
-		return ind;
+		ind = findMax();// find max again - the diameter.
+		return dist[ind];
 	}
-	
+
 	/**
 	 * This function represent naive solution to find index of max in array. number
 	 * of comparisons: n-1. complexity: O(n).
@@ -157,25 +164,54 @@ public class BFS_Algorithm {
 		}
 		return index;
 	}
-	
+
 	public static void main(String[] args) {
 		int size = 7;
 		ArrayList<Integer>[] graph = new ArrayList[size];
 		for (int i = 0; i < size; i++) {
 			graph[i] = new ArrayList<Integer>();
 		}
-		graph[0].add(1); graph[0].add(2);  
-		graph[1].add(0); graph[1].add(2);  
-		graph[2].add(1); graph[2].add(0);  
-		graph[3].add(4); graph[3].add(5);  
-		graph[4].add(3); graph[4].add(6);  
-		graph[5].add(3); graph[5].add(6);  
-		graph[6].add(4); graph[6].add(5); 
-		
+		graph[0].add(1);
+		graph[1].add(0);
+		graph[1].add(2);
+		graph[1].add(4);
+		graph[2].add(1);
+		graph[2].add(3);
+		graph[3].add(2);
+		graph[4].add(1);
+		graph[4].add(5);
+		graph[5].add(4);
+		graph[5].add(6);
+		graph[6].add(5);
+
 		BFS_Algorithm bfs = new BFS_Algorithm(graph);
-		bfs.BFS(0);
+		// bfs.BFS(0);
+		System.out.println("Is connected? " + bfs.isConnected());
+		System.out.println("The path is: " + bfs.printPath(0, 6));
+		System.out.println("Diameter: " + bfs.findDiameter());
+
+		/////
+
+		size = 5;
+		ArrayList<Integer>[] graph1 = new ArrayList[size];
+		for (int i = 0; i < size; i++) {
+			graph1[i] = new ArrayList<Integer>();
+		}
+		graph1[0].add(1);
+		graph1[1].add(0);
+		graph1[1].add(2);
+		graph1[2].add(1);
+		graph1[2].add(3);
+		graph1[3].add(2);
+		graph1[3].add(4);
+		graph1[4].add(3);// 0->1->2->3->4
 		
-		
+		BFS_Algorithm bfs1 = new BFS_Algorithm(graph1);
+		System.out.println("Is connected? " + bfs1.isConnected());
+		System.out.println("The path is: " + bfs1.printPath(0, 4));
+		System.out.println("Diameter: " + bfs1.findDiameter());
+
+
 	}
-	
+
 }
