@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import fire.MyVector;
 
 /**
  * BFS (Breadth First Search) algorithm. Complexity: O(|V|+|E|)
@@ -38,6 +37,7 @@ public class BFS_Algorithm {
 	 * @param g -‫‪the‬‬ ‫‪graph‬‬ ‫‪is‬‬ ‫‪represented‬‬ ‫‪using‬‬
 	 *          ‫‪adjacency-list‬‬.
 	 */
+	@SuppressWarnings("unchecked")
 	public BFS_Algorithm(ArrayList<Integer> g[]) {
 		size = g.length;
 		graph = new ArrayList[size];
@@ -165,8 +165,92 @@ public class BFS_Algorithm {
 		return index;
 	}
 
+	public String getAllComponents() {
+		numOfConnectedComponents();
+		@SuppressWarnings("unchecked")
+		ArrayList<Integer>[] compsList = new ArrayList[numComps];
+		for (int i = 0; i < compsList.length; i++) {
+			compsList[i] = new ArrayList<Integer>();
+		}
+		for (int i = 0; i < components.length; i++) {
+			int n = components[i];
+			compsList[n - 1].add(i);
+		}
+		String ans = new String();
+		for (int i = 0; i < compsList.length; i++) {
+			ans = ans + compsList[i] + "\n";
+		}
+		return ans;
+	}
+	/**
+	 * 
+	 * @return - the number of connected components in g graph. 
+	 */
+	public int numOfConnectedComponents() {
+		while (hasNextComponent()) {
+			numComps++;
+			BFS(source);
+			for (int i = 0; i < components.length; i++) {
+				if (dist[i] != NIL) {
+					components[i] = numComps;
+				}
+			}
+		}
+		return numComps;
+	}
+	/**
+	 * 
+	 * @return - true iff has next vertex.
+	 */
+	private boolean hasNextComponent() {
+		for (int i = 0; i < components.length; i++) {
+			if (components[i] == 0) {
+				source = i;
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isBipartite() {
+		int u = 0;
+		/* INIT arrays - color, distance, and parent. */
+		for (int i = 0; i < size; i++) {
+			color[i] = WHITE; // colored all vertices in white.
+			dist[i] = NIL; // all distances = -1.
+			parent[i] = NIL; // all parent = -1.
+			partition[i] = 0;
+		}
+		source = 0;
+		color[source] = GRAY; // paint source vertex in gray.
+		dist[source] = 0; // the distance between source to himself ->0.
+		parent[source] = NIL; // source has no parent (root).
+		partition[source] = 1;
+		queue.add(source); // add source vertex to the queue.
+		while (!queue.isEmpty()) {
+			u = queue.poll(); // retrieves and removes the head of this queue.
+			/* goes over all adj[u]. */
+			for (int v : graph[u]) {
+				/* if found edge in the same group - return false. */
+				if (partition [u] == partition [v]) {
+					return false;
+				}
+				/* if v is not visited yet. */
+				if (color[v] == WHITE) {
+					color[v] = GRAY; // paint v in gray.
+					dist[v] = dist[u] + 1; // update the distance of v.
+					parent[v] = u; // set u as a parent of v.
+					queue.add(v); // add v to the queue.
+				}
+			}
+			color[u] = BLACK; // after going over all adj[u]- paint u in black.
+		}
+		return true;
+	}
+
 	public static void main(String[] args) {
 		int size = 7;
+		@SuppressWarnings("unchecked")
 		ArrayList<Integer>[] graph = new ArrayList[size];
 		for (int i = 0; i < size; i++) {
 			graph[i] = new ArrayList<Integer>();
@@ -189,10 +273,14 @@ public class BFS_Algorithm {
 		System.out.println("Is connected? " + bfs.isConnected());
 		System.out.println("The path is: " + bfs.printPath(0, 6));
 		System.out.println("Diameter: " + bfs.findDiameter());
+		System.out.println("Number of components: " + bfs.numOfConnectedComponents() + " \nAnd the components: " + bfs.getAllComponents());
 
 		/////
-
+		System.out.println("-------------------------------------------------------------\n");
+		
+		
 		size = 5;
+		@SuppressWarnings("unchecked")
 		ArrayList<Integer>[] graph1 = new ArrayList[size];
 		for (int i = 0; i < size; i++) {
 			graph1[i] = new ArrayList<Integer>();
@@ -205,12 +293,12 @@ public class BFS_Algorithm {
 		graph1[3].add(2);
 		graph1[3].add(4);
 		graph1[4].add(3);// 0->1->2->3->4
-		
+
 		BFS_Algorithm bfs1 = new BFS_Algorithm(graph1);
 		System.out.println("Is connected? " + bfs1.isConnected());
 		System.out.println("The path is: " + bfs1.printPath(0, 4));
 		System.out.println("Diameter: " + bfs1.findDiameter());
-
+		System.out.println("Number of components: " + bfs1.numOfConnectedComponents() + " \nAnd the components: " + bfs1.getAllComponents());
 
 	}
 

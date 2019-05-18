@@ -1,6 +1,5 @@
 package fire;
 
-import java.util.ArrayList;
 
 public class FireAlgorithm {
 
