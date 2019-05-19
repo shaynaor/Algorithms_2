@@ -147,6 +147,8 @@ public class BFS_Algorithm {
 
 	/**
 	 * Complexity: O( 2(|V|+|E|) ).
+	 * If diameter is even -> radius = diameter /2.
+	 * else radius = (diameter+1)/2.
 	 * 
 	 * @return - the radius of the graph.
 	 */
@@ -161,6 +163,8 @@ public class BFS_Algorithm {
 	/**
 	 * Complexity: O( 2(|V|+|E|) ).
 	 * 
+	 * If diameter is even -> the graph have 1 center.
+	 * else the graph have 2 centers.
 	 * @return - how many centers the graph has.
 	 */
 	public int howManyCenters() {
@@ -301,7 +305,7 @@ public class BFS_Algorithm {
 		System.out.println("The path is: " + bfs.printPath(0, 6)); // 0->1->4->5->6
 		System.out.println("Diameter: " + bfs.findDiameter()); // diameter = 5
 		System.out.println("Rdius: " + bfs.findRadius()); // radius = 3
-		System.out.println("The graph has " + bfs.howManyCenters() + " centers"); // 2
+		System.out.println("The graph have " + bfs.howManyCenters() + " centers"); // 2
 		System.out.println("Number of components: " + bfs.numOfConnectedComponents() + " \nAnd the components: "
 				+ bfs.getAllComponents());// 1 . all vertex
 
@@ -328,7 +332,7 @@ public class BFS_Algorithm {
 		System.out.println("The path is: " + bfs1.printPath(0, 4)); // 0->1->2->3->4->
 		System.out.println("Diameter: " + bfs1.findDiameter()); // diameter = 4
 		System.out.println("Rdius: " + bfs1.findRadius()); // radius = 2
-		System.out.println("The graph has " + bfs1.howManyCenters() + " centers"); // 1
+		System.out.println("The graph have " + bfs1.howManyCenters() + " centers"); // 1
 		System.out.println("Number of components: " + bfs1.numOfConnectedComponents() + " \nAnd the components: "
 				+ bfs1.getAllComponents());// 1 . all vertex
 
