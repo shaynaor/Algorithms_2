@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
-
 /**
  * BFS (Breadth First Search) algorithm. Complexity: O(|V|+|E|)
  * 
@@ -147,6 +146,32 @@ public class BFS_Algorithm {
 	}
 
 	/**
+	 * Complexity: O( 2(|V|+|E|) ).
+	 * 
+	 * @return - the radius of the graph.
+	 */
+	public int findRadius() {
+		int diameter = this.findDiameter();
+		if (diameter % 2 == 0) {
+			return diameter / 2;
+		}
+		return (diameter + 1) / 2;
+	}
+
+	/**
+	 * Complexity: O( 2(|V|+|E|) ).
+	 * 
+	 * @return - how many centers the graph has.
+	 */
+	public int howManyCenters() {
+		int diameter = this.findDiameter();
+		if (diameter % 2 == 0) {
+			return 1;
+		}
+		return 2;
+	}
+
+	/**
 	 * This function represent naive solution to find index of max in array. number
 	 * of comparisons: n-1. complexity: O(n).
 	 * 
@@ -182,9 +207,10 @@ public class BFS_Algorithm {
 		}
 		return ans;
 	}
+
 	/**
 	 * 
-	 * @return - the number of connected components in g graph. 
+	 * @return - the number of connected components in g graph.
 	 */
 	public int numOfConnectedComponents() {
 		while (hasNextComponent()) {
@@ -198,6 +224,7 @@ public class BFS_Algorithm {
 		}
 		return numComps;
 	}
+
 	/**
 	 * 
 	 * @return - true iff has next vertex.
@@ -211,7 +238,7 @@ public class BFS_Algorithm {
 		}
 		return false;
 	}
-	
+
 	public boolean isBipartite() {
 		int u = 0;
 		/* INIT arrays - color, distance, and parent. */
@@ -232,7 +259,7 @@ public class BFS_Algorithm {
 			/* goes over all adj[u]. */
 			for (int v : graph[u]) {
 				/* if found edge in the same group - return false. */
-				if (partition [u] == partition [v]) {
+				if (partition[u] == partition[v]) {
 					return false;
 				}
 				/* if v is not visited yet. */
@@ -270,15 +297,17 @@ public class BFS_Algorithm {
 
 		BFS_Algorithm bfs = new BFS_Algorithm(graph);
 		// bfs.BFS(0);
-		System.out.println("Is connected? " + bfs.isConnected());
-		System.out.println("The path is: " + bfs.printPath(0, 6));
-		System.out.println("Diameter: " + bfs.findDiameter());
-		System.out.println("Number of components: " + bfs.numOfConnectedComponents() + " \nAnd the components: " + bfs.getAllComponents());
+		System.out.println("Is connected? " + bfs.isConnected()); // yes
+		System.out.println("The path is: " + bfs.printPath(0, 6)); // 0->1->4->5->6
+		System.out.println("Diameter: " + bfs.findDiameter()); // diameter = 5
+		System.out.println("Rdius: " + bfs.findRadius()); // radius = 3
+		System.out.println("The graph has " + bfs.howManyCenters() + " centers"); // 2
+		System.out.println("Number of components: " + bfs.numOfConnectedComponents() + " \nAnd the components: "
+				+ bfs.getAllComponents());// 1 . all vertex
 
 		/////
 		System.out.println("-------------------------------------------------------------\n");
-		
-		
+
 		size = 5;
 		@SuppressWarnings("unchecked")
 		ArrayList<Integer>[] graph1 = new ArrayList[size];
@@ -295,10 +324,13 @@ public class BFS_Algorithm {
 		graph1[4].add(3);// 0->1->2->3->4
 
 		BFS_Algorithm bfs1 = new BFS_Algorithm(graph1);
-		System.out.println("Is connected? " + bfs1.isConnected());
-		System.out.println("The path is: " + bfs1.printPath(0, 4));
-		System.out.println("Diameter: " + bfs1.findDiameter());
-		System.out.println("Number of components: " + bfs1.numOfConnectedComponents() + " \nAnd the components: " + bfs1.getAllComponents());
+		System.out.println("Is connected? " + bfs1.isConnected()); // Yes
+		System.out.println("The path is: " + bfs1.printPath(0, 4)); // 0->1->2->3->4->
+		System.out.println("Diameter: " + bfs1.findDiameter()); // diameter = 4
+		System.out.println("Rdius: " + bfs1.findRadius()); // radius = 2
+		System.out.println("The graph has " + bfs1.howManyCenters() + " centers"); // 1
+		System.out.println("Number of components: " + bfs1.numOfConnectedComponents() + " \nAnd the components: "
+				+ bfs1.getAllComponents());// 1 . all vertex
 
 	}
 
