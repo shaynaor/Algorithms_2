@@ -54,10 +54,10 @@ public class EulerCycle {
 	}
 
 	/**
-	 * Prints the Euler path.
+	 * Prints the Euler cycle.
 	 */
 	public void printEulerPath() {
-		System.out.println("Euler path:");
+		System.out.println("Euler cycle:");
 		System.out.println(path.toString());
 	}
 
