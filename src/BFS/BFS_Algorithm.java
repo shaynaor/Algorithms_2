@@ -150,7 +150,7 @@ public class BFS_Algorithm {
 	 * If diameter is even -> radius = diameter /2.
 	 * else radius = (diameter+1)/2.
 	 * 
-	 * @return - the radius of the graph.
+	 * @return - the radius of the tree.
 	 */
 	public int findRadius() {
 		int diameter = this.findDiameter();
@@ -163,9 +163,9 @@ public class BFS_Algorithm {
 	/**
 	 * Complexity: O( 2(|V|+|E|) ).
 	 * 
-	 * If diameter is even -> the graph have 1 center.
+	 * If diameter is even -> the tree have 1 center.
 	 * else the graph have 2 centers.
-	 * @return - how many centers the graph has.
+	 * @return - how many centers the tree has.
 	 */
 	public int howManyCenters() {
 		int diameter = this.findDiameter();
