@@ -1,6 +1,5 @@
 package minimum_spanning_tree;
 
-import java.util.Arrays;
 
 public class DisjointSet {
 	/* Private data members. */
