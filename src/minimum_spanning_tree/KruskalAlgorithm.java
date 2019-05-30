@@ -68,7 +68,7 @@ public class KruskalAlgorithm {
 		
 		KruskalAlgorithm kru = new KruskalAlgorithm(graph, numVert);
 		kru.createMinSpanningTree();
-		System.out.println(kru.calcTreeWeight());
+		System.out.println(kru.calcTreeWeight());// sum  71.
 		
 		
 		System.out.println("*-----------------------------*");
@@ -87,7 +87,7 @@ public class KruskalAlgorithm {
 		graph1[8] = new Edge(4, 6, 9);
 		KruskalAlgorithm kru1 = new KruskalAlgorithm(graph1, numVert);
 		kru1.createMinSpanningTree();
-		System.out.println(kru1.calcTreeWeight());//
+		System.out.println(kru1.calcTreeWeight());//sum = 29.
 		
 	}
 
